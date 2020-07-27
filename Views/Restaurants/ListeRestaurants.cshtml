@@ -1,0 +1,78 @@
+﻿@model IEnumerable<AfpEat.Restaurant>
+
+@{
+    ViewBag.Title = "ListeRestaurants";
+}
+
+<h2>Restaurants</h2>
+
+
+<div class="card">
+    <div class="border">
+    <img class="card-img" src="..." alt="Bologna">
+    <div class="card-img-overlay">
+    </div>
+        <a href="#" class="btn btn-light btn-sm">Cooking</a>
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-column px-4">
+
+        </div>
+        </div>
+    </div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Photos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeCuisine.Specialite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Budget)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        try
+        {
+            <tr>
+                <td>
+            @Html.DisplayNameFor(model => model.Photos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tag)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Budget)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeCuisine.Specialite)
+                </td>
+                <td>                    
+                    @Html.ActionLink("Details", "Details", new { id = item.IdRestaurant }) 
+                    
+                </td>
+            </tr>
+        }
+        catch(Exception ex)
+        {
+            string rr = ex.Message;
+        }
+
+
+    }
+
+</table>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<AfpEat.Produit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Produits</h2>
+
+
+
+<div class="card">
+    <div class="border">
+        <img class="card-img" src="~/img/280755-un-nouveau-restaurant-big-fernand-dans-le-bhv-marais.jpg" alt="Image">
+        <div class="card-img-overlay">
+        </div>
+        <a href="#" class="btn btn-light btn-sm">Cooking</a>
+    </div>
+    <div class="card-body">
+        <div class="d-flex flex-column px-4">
+
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Photos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantite)
+        </th>
+        <th>
+            Allergènes
+        </th>
+        <th>
+            Catégorie
+        </th>
+        <th>
+            Nom du Restaurant
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <th>
+        @Html.DisplayNameFor(model => model.Photos)
+    </th>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Prix)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantite)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Allergene.Nom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Categorie.Nom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Restaurant.Nom)
+    </td>
+    <td>
+
+        @Html.ActionLink("Details", "Details", new { id = item.IdProduit }) |
+
+    </td>
+</tr>
+}
+
+</table>

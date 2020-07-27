@@ -1,0 +1,155 @@
+﻿@model AfpEat.Models.PanierModel
+
+@{
+    ViewBag.Title = "Panier";
+    bool isConnected = Session["Ultilisateur"] != null ? true : false;
+
+    if (Session["Compte"] != null)
+    {
+        isConnected = true;
+    }
+}
+
+<h2>Panier</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nom)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Photo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Prix)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantite)
+    </td>
+    <td>
+    @{
+        if (item is AfpEat.Models.MenuPanier)
+        {
+            List<AfpEat.Models.ProduitPanier> produitPaniers
+                = ((AfpEat.Models.MenuPanier)item).produits;
+
+            if (produitPaniers != null && produitPaniers.Count > 0)
+            {
+                foreach (AfpEat.Models.ProduitPanier produitPanier in produitPaniers)
+                {
+
+                }
+            }
+
+        }
+    }
+
+    </td>
+
+</tr>
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalConnexion">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Identification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="matricule">Matricule</label>
+                    <input type="text" class="form-control" id="matricule" placeholder="N° de Matricule">
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="*********">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary" id="btnConnexion">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btncommande').click(function () {
+                if (@isConnected) {
+                    SaveCommandeSw();
+                }
+                else {
+                    $("modalconnection").modal("show");
+                }
+            });
+        });
+
+        function SaveCommandeSw() {
+            var data = { 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url : '@Url.Action("SaveCommande","Sw")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType:'application/json; charset=utf-8',
+                    dataType: 'json',   // On désire recevoir du json
+                    success: function (data) {
+
+                        document.location.href = '/utilisateurs/details/' + data.idUtilisateur;
+                                            
+                       },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+        }
+
+        function LoginUtilisateurSw() {
+            var matricule = $('#matricule1').val();
+            var password = $('#password1').val();
+
+            if (matricule != "" && password != "") {
+                var data = {
+                    'idSession': '@Session.SessionID',
+                };
+                $.ajax({
+                    url : '@Url.Action("LoginUtilisateur","Sw")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType:'application/json; charset=utf-8',
+                    dataType: 'json',   // On désire recevoir du json
+                    success: function (data) {                     
+                },
+                      error: function () {
+                        alert("Error");
+                    }
+                });
+        }
+
+
+    </script>
+}

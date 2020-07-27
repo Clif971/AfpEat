@@ -1,0 +1,181 @@
+﻿@model AfpEat.Produit
+
+@{
+    ViewBag.Title = "Details";
+    List<Produit> produits = ViewBag.MesProduits;
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Produit</h4>
+    <hr />
+
+    <div class="card">
+        <h1> @Html.DisplayNameFor(model => model.Nom)</h1>
+        <div class="border">
+            <img src="@item.Photos.FirstOrDefault().Nom" />
+            <div class="card-img-overlay">
+            </div>
+            <a href="#" class="btn btn-light btn-sm">Cooking</a>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-column px-4">
+
+            </div>
+            <div class="d-flex flex-column px-4">
+                <button class="btn-info btnCommander" data-idproduit="@Html.DisplayFor(model => model.IdProduit)">Commander</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model.Menus)
+{
+    <tr>
+        <td>
+            @Html.ActionLink(item.Nom, "Details", "Menus", new { id = item.IdMenu }),
+        </td>
+
+    </tr>
+}
+
+
+
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".btnCommander").click(function () {
+                var idProduit = $(this).data("idproduit");
+
+                if (idproduit > 0) {
+
+                    var data = "'idProduit':'" + idproduit + "'";
+
+                     $.ajax({
+                    url : '@Url.Action("LoginUtilisateur","Sw")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType:'application/json; charset=utf-8', //On envoie du json
+                    dataType: 'json',   // On reçoit du json
+                         success: function (data) {
+                        $("glassAnimals").modal("show");
+                },
+                      error: function () {
+                          alert("Error");
+                     }
+                });
+            };
+        });
+        });
+
+    </script>
+
+}
+
+
+
+<div class="modal fade" id="glassAnimals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Glass Animals</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Track Artist</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dl class="dl-horizontal">
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Nom)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Nom)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Prix)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Prix)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Quantite)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Quantite)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Allergene.Nom)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Allergene.Nom)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Categorie.Nom)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Categorie.Nom)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Restaurant.Nom)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Restaurant.Nom)
+    </dd>
+    <dd>
+        <button id="btnAddProduit" class="btn btn-danger">Ajouter au panier</button>
+    </dd>
+
+
+</dl>
+
+<div class="modal fade" id="panier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdProduit }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
